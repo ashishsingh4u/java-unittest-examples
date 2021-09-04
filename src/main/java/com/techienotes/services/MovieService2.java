@@ -13,8 +13,8 @@ public class MovieService2 {
         this.movieRepository = movieRepository;
     }
 
-    public List<Movie> getLatestMovie(int starCount) {
-        List<Movie> latestMovies = movieRepository.getLatestMovies();
+    public List<Movie> getLatestMovie(int starCount, String year) {
+        List<Movie> latestMovies = movieRepository.getLatestMovies(year);
         return latestMovies.stream().filter(movie -> movie.getStarCount() == starCount).collect(Collectors.toList());
     }
 }

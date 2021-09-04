@@ -29,7 +29,7 @@ public class MovieRepositoryMockImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> getLatestMovies() {
+    public List<Movie> getLatestMovies(String year) {
         return this.movieList.stream().filter(movie -> movie.getReleaseYear().equals("2021")).collect(Collectors.toList());
     }
 

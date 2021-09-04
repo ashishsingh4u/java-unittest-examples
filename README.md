@@ -45,3 +45,8 @@ for this demonstration
 
     MovieServiceTest::testGetAllOnMovieServiceWithMockito
 
+### Using Stub Test Doubles (With Mockito)
+
+#### This is used to return hard-coded answers/returns. Stubs is used to replace external dependencies that we do not want to test
+
+    MovieService2Test::testLatestMoviesByStarsWithMockito

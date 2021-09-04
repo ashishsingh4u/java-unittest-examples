@@ -2,9 +2,10 @@ package com.techienotes.repositories;
 
 import com.techienotes.models.Movie;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MovieRepositoryStub implements MovieRepository {
     @Override
@@ -18,9 +19,9 @@ public class MovieRepositoryStub implements MovieRepository {
     }
 
     @Override
-    public List<Movie> getLatestMovies() {
-        return Arrays.asList(new Movie("X", "2021", 3)
+    public List<Movie> getLatestMovies(String year) {
+        return Stream.of(new Movie("X", "2021", 3)
                 , new Movie("Y", "2021", 4)
-                , new Movie("Z", "2021", 5));
+                , new Movie("Z", "2021", 5)).filter(movie -> movie.getReleaseYear().equals(year)).collect(Collectors.toList());
     }
 }

@@ -18,7 +18,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> getLatestMovies() {
+    public List<Movie> getLatestMovies(String year) {
         return Collections.emptyList();
     }
 }
