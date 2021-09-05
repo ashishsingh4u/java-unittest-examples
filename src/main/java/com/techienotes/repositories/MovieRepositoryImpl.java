@@ -21,4 +21,9 @@ public class MovieRepositoryImpl implements MovieRepository {
     public List<Movie> getLatestMovies(String year) {
         return Collections.emptyList();
     }
+
+    @Override
+    public Movie findMovieByName(String name) {
+        return null;
+    }
 }

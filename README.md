@@ -10,10 +10,12 @@ substitute some dependency
 to define returned values. Usually it is created by framework
 
 **_mock object_** is very similar to stub object but the extra state is changed during program execution to check if
-something happened(method was called, arguments, when, how often...).
+something happened(method was called, arguments, when, how often...). Use Mock when you want to just test the
+functionality externally without actually calling that method
 
 **_spy object_** is a real object with a "partial mocking". It means that you work with a non-double object except
-mocked behavior
+mocked behavior. Use @Spy when you want to test the functionality externally + internally with the very method being
+called
 
 **_dummy object_** is object which is necessary to run a test but no one variable or method of this object is not
 called.
@@ -86,3 +88,10 @@ for this demonstration
 #### This is used to record interactions with external dependencies
 
     MovieServiceSpyTest::testSaveOnMovieServiceWithSpy
+
+### Using Mock Test Doubles With Mockito Annotations in JUnit5
+
+#### This is used to record interactions with external dependencies
+
+    MovieService2AnnotationTest
+    MovieService2Annotation2Test

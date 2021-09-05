@@ -11,4 +11,6 @@ public interface MovieRepository {
     Collection<Movie> getAllMovies();
 
     List<Movie> getLatestMovies(String year);
+
+    Movie findMovieByName(String name);
 }

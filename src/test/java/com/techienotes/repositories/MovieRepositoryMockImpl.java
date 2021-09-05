@@ -31,6 +31,11 @@ public class MovieRepositoryMockImpl implements MovieRepository {
         return this.movieList.stream().filter(movie -> movie.getReleaseYear().equals("2021")).collect(Collectors.toList());
     }
 
+    @Override
+    public Movie findMovieByName(String name) {
+        return this.movieList.stream().filter(movie -> movie.getName().equals(name)).findFirst().orElse(null);
+    }
+
     public void verify(Movie movie, int times) {
         assertEquals(times, saveCalledCounter, "Movies save called counter is different");
         assertEquals(movie, lastAddedMovie, "Last saved movie is different");

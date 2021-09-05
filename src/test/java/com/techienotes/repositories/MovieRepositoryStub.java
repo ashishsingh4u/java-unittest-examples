@@ -24,4 +24,9 @@ public class MovieRepositoryStub implements MovieRepository {
                 , new Movie("Y", "2021", 4)
                 , new Movie("Z", "2021", 5)).filter(movie -> movie.getReleaseYear().equals(year)).collect(Collectors.toList());
     }
+
+    @Override
+    public Movie findMovieByName(String name) {
+        return null;
+    }
 }

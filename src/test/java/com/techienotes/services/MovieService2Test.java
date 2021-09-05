@@ -5,12 +5,17 @@ import com.techienotes.repositories.MovieRepository;
 import com.techienotes.repositories.MovieRepositoryStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class MovieService2Test {
@@ -58,5 +63,68 @@ class MovieService2Test {
 
         movies = movieService2.getLatestMovie(5, "2021");
         assertEquals(1, movies.size(), "1 Star movies found");
+    }
+
+    @Test
+    void testFindBookWithWhenReturnMockito() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        List<Movie> movies = Arrays.asList(new Movie("X", "2021", 3)
+                , new Movie("Y", "2021", 4)
+                , new Movie("Z", "2021", 5));
+        when(movieRepository.getLatestMovies("2021")).thenReturn(movies);
+        when(movieRepository.findMovieByName("X")).thenReturn(movies.get(0));
+        when(movieRepository.findMovieByName("Y")).thenReturn(movies.get(1));
+        when(movieRepository.findMovieByName("Z")).thenReturn(movies.get(2));
+
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+        String movieDetailsByName = movieService2.getMovieDetailsByName("2021");
+        assertEquals("X, Y, Z", movieDetailsByName, "Movie names are not correct");
+    }
+
+    @Test
+    void testFindBookWithDoReturnWhenMockito() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        List<Movie> movies = Arrays.asList(new Movie("X", "2021", 3)
+                , new Movie("Y", "2021", 4)
+                , new Movie("Z", "2021", 5));
+        doReturn(movies).when(movieRepository).getLatestMovies("2021");
+        doReturn(movies.get(0)).when(movieRepository).findMovieByName("X");
+        doReturn(movies.get(1)).when(movieRepository).findMovieByName("Y");
+        doReturn(movies.get(2)).when(movieRepository).findMovieByName("Z");
+
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+        String movieDetailsByName = movieService2.getMovieDetailsByName("2021");
+        assertEquals("X, Y, Z", movieDetailsByName, "Movie names are not correct");
+    }
+
+    @Test
+    void testFindBookWithDoReturnWhenMockito2() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        List<Movie> movies = Arrays.asList(new Movie("X", "2021", 3)
+                , new Movie("Y", "2021", 4)
+                , new Movie("Z", "2021", 5));
+        when(movieRepository.getLatestMovies("2021")).thenReturn(movies);
+        when(movieRepository.findMovieByName(Mockito.anyString())).thenReturn(movies.get(0), movies.get(1), movies.get(2));
+        when(movieRepository.findMovieByName(Mockito.anyString()))
+                .thenReturn(movies.get(0))
+                .thenReturn(movies.get(1))
+                .thenReturn(movies.get(2));
+
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+        String movieDetailsByName = movieService2.getMovieDetailsByName("2021");
+        assertEquals("X, Y, Z", movieDetailsByName, "Movie names are not correct");
+    }
+
+    @Test
+    void testSaveBookWithMockito() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+
+        Movie movie = new Movie("Z", "2021", 5);
+
+        // ByDefault Mockito uses equals to compare object. If not implemented on object then the Object's equal will called (==), which is reference equals
+        doNothing().when(movieRepository).save(movie);
+        movieService2.saveBook(movie);
+        verify(movieRepository, times(1)).save(movie);
     }
 }

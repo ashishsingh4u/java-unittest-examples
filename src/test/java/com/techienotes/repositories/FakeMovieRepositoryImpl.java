@@ -38,4 +38,9 @@ public class FakeMovieRepositoryImpl implements MovieRepository {
     public List<Movie> getLatestMovies(String year) {
         return this.movieList.stream().filter(movie -> movie.getReleaseYear().equals(year)).collect(Collectors.toList());
     }
+
+    @Override
+    public Movie findMovieByName(String name) {
+        return this.movieList.stream().filter(movie -> movie.getName().equals(name)).findFirst().orElse(null);
+    }
 }
