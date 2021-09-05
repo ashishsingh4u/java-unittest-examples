@@ -26,6 +26,8 @@ called.
 
 ## Java UnitTest Example
 
+[![Java CI with Maven](https://github.com/ashishsingh4u/java-unittest-examples/actions/workflows/maven.yml/badge.svg)](https://github.com/ashishsingh4u/java-unittest-examples/actions/workflows/maven.yml)
+
 This project is to demonstrate how we can test our implementation using different ways. JUnit5 and Mockito will be used
 for this demonstration
 
