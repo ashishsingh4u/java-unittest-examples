@@ -122,9 +122,29 @@ class MovieService2Test {
 
         Movie movie = new Movie("Z", "2021", 5);
 
-        // ByDefault Mockito uses equals to compare object. If not implemented on object then the Object's equal will called (==), which is reference equals
+        /*
+         ByDefault Mockito uses equals to compare object. If not implemented on object then the Object's equal will called (==), which is reference equals
+         Since both Movie refers to same object here, this test will be passed
+        */
         doNothing().when(movieRepository).save(movie);
         movieService2.saveBook(movie);
+        verify(movieRepository, times(1)).save(movie);
+    }
+
+    @Test
+    void testSaveBookWithCloneWithMockito() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+
+        Movie movie = new Movie("Z", "2021", 5);
+
+        /*
+         ByDefault Mockito uses equals to compare object. If not implemented on object then the Object's equal will called (==), which is reference equals
+         Since both Movie refers to different object here (A new object was created in saveBookWithClone), this test will be failed
+         To fix this equals and hashcode should be implemented in Movie class
+        */
+        doNothing().when(movieRepository).save(movie);
+        movieService2.saveBookWithClone(movie);
         verify(movieRepository, times(1)).save(movie);
     }
 }

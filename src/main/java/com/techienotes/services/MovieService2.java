@@ -17,11 +17,16 @@ public class MovieService2 {
         movieRepository.save(movie);
     }
 
+    public void saveBookWithClone(Movie movie) {
+        movie = new Movie(movie.getName(), movie.getReleaseYear(), movie.getStarCount());
+        movieRepository.save(movie);
+    }
+
     public List<Movie> getLatestMovie(int starCount, String year) {
         List<Movie> latestMovies = movieRepository.getLatestMovies(year);
         return latestMovies.stream().filter(movie -> movie.getStarCount() == starCount).collect(Collectors.toList());
     }
-    
+
     public String getMovieDetailsByName(String year) {
         List<Movie> latestMovies = movieRepository.getLatestMovies(year);
         StringBuilder builder = new StringBuilder();
