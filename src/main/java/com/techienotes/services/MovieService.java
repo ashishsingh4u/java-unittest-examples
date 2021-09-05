@@ -15,7 +15,8 @@ public class MovieService {
     }
 
     public void addMovie(Movie movie) {
-        this.movieRepository.save(movie);
+        if (movie.getName() != null)
+            this.movieRepository.save(movie);
     }
 
     public Collection<Movie> getAllMovies() {

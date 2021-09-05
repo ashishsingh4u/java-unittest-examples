@@ -16,8 +16,6 @@ public class MovieRepositoryMockImpl implements MovieRepository {
 
     @Override
     public void save(Movie movie) {
-        if (movie.getName() == null)
-            return;
         this.movieList.add(movie);
         saveCalledCounter++;
         lastAddedMovie = movie;
