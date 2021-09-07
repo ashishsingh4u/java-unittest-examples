@@ -2,14 +2,21 @@ package com.techienotes.services;
 
 import com.techienotes.exception.DatabaseException;
 import com.techienotes.models.Movie;
+import com.techienotes.models.MovieRequest;
 import com.techienotes.repositories.MovieRepository;
 import com.techienotes.repositories.MovieRepositoryMockImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.sql.SQLException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -24,10 +31,23 @@ class MovieServiceMockTest {
     private MovieService movieService;
     private MovieRepositoryMockImpl movieRepository;
 
+    @InjectMocks
+    private MovieService service;
+
+    @Mock
+    private MovieRepository repository;
+
+    @Mock
+    private NotificationService notificationService;
+
+    @Captor
+    private ArgumentCaptor<Movie> movieArgumentCaptor;
+
     @BeforeEach
     void setUp() {
         movieRepository = new MovieRepositoryMockImpl();
         movieService = new MovieService(movieRepository, new DummyNotificationService());
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -129,5 +149,26 @@ class MovieServiceMockTest {
         doThrow(SQLException.class).when(repository).saveWithException(x);
 
         assertThrows(DatabaseException.class, () -> movieService.addMovieWithException(x));
+    }
+
+    @Test
+    void testArgumentCaptureOnSaveOnMockedMovieServiceWithMockito() {
+        MovieRepository repository = mock(MovieRepository.class);
+        NotificationService notificationService = mock(NotificationService.class);
+        MovieService movieService = new MovieService(repository, notificationService);
+
+        MovieRequest movieRequest = new MovieRequest("X", "2020", 5);
+        ArgumentCaptor<Movie> argumentCaptor = ArgumentCaptor.forClass(Movie.class);
+        movieService.save(movieRequest);
+        verify(repository).save(argumentCaptor.capture());
+        assertEquals("X_Updated", argumentCaptor.getValue().getName(), "Request message and movie are not equal");
+    }
+
+    @Test
+    void testArgumentCaptureOnSaveWithAnnotationWithMockito() {
+        MovieRequest movieRequest = new MovieRequest("X", "2020", 5);
+        service.save(movieRequest);
+        verify(repository).save(movieArgumentCaptor.capture());
+        assertEquals("X_Updated", movieArgumentCaptor.getValue().getName(), "Request message and movie are not equal");
     }
 }

@@ -23,4 +23,5 @@ public interface MovieRepository {
     default List<Movie> getAllKidMovies() throws SQLException {
         return Collections.emptyList();
     }
+
 }

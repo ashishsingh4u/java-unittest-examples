@@ -2,6 +2,7 @@ package com.techienotes.services;
 
 import com.techienotes.exception.DatabaseException;
 import com.techienotes.models.Movie;
+import com.techienotes.models.MovieRequest;
 import com.techienotes.repositories.MovieRepository;
 
 import java.sql.SQLException;
@@ -40,5 +41,10 @@ public class MovieService {
 
     public Collection<Movie> getAllMovies() {
         return this.movieRepository.getAllMovies();
+    }
+
+    public void save(MovieRequest request) {
+        Movie movie = new Movie(request.getName() + "_Updated", request.getReleaseYear(), request.getStarCount());
+        this.movieRepository.save(movie);
     }
 }
