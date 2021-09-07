@@ -17,6 +17,12 @@ public class MovieService2 {
         movieRepository.save(movie);
     }
 
+    public void saveBookWithCheck(Movie movie) {
+        Movie movieByName = movieRepository.findMovieByName(movie.getName());
+        if (movieByName == null)
+            movieRepository.save(movie);
+    }
+
     public void saveBookWithClone(Movie movie) {
         movie = new Movie(movie.getName(), movie.getReleaseYear(), movie.getStarCount());
         movieRepository.save(movie);

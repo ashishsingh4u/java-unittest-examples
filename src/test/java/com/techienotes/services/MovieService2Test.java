@@ -5,18 +5,14 @@ import com.techienotes.repositories.MovieRepository;
 import com.techienotes.repositories.MovieRepositoryStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class MovieService2Test {
 
@@ -146,5 +142,43 @@ class MovieService2Test {
         doNothing().when(movieRepository).save(movie);
         movieService2.saveBookWithClone(movie);
         verify(movieRepository, times(1)).save(movie);
+    }
+
+    @Test
+    void testFindBookWithSaveMockito2() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        Movie movie = new Movie("X", "2021", 3);
+
+        when(movieRepository.findMovieByName(Mockito.anyString()))
+                .thenReturn(movie);
+
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+        movieService2.saveBookWithCheck(movie);
+
+        verify(movieRepository, atMostOnce()).findMovieByName(movie.getName());
+        verify(movieRepository, atMost(1)).findMovieByName(movie.getName());
+        verify(movieRepository, atLeastOnce()).findMovieByName(movie.getName());
+        verify(movieRepository, atLeast(1)).findMovieByName(movie.getName());
+        verify(movieRepository, times(1)).findMovieByName(movie.getName());
+
+        verifyNoMoreInteractions(movieRepository);
+    }
+
+    @Test
+    void testFindBookWithSave2Mockito2() {
+        MovieRepository movieRepository = mock(MovieRepository.class);
+        Movie movie = new Movie("X", "2021", 3);
+
+        when(movieRepository.findMovieByName(Mockito.anyString()))
+                .thenReturn(null);
+
+        MovieService2 movieService2 = new MovieService2(movieRepository);
+        movieService2.saveBookWithCheck(movie);
+
+        // This is to check if the methods are invoked in the same order.
+        InOrder inOrder = inOrder(movieRepository);
+        inOrder.verify(movieRepository, times(1)).findMovieByName(movie.getName());
+        inOrder.verify(movieRepository, times(1)).save(movie);
+        verifyNoMoreInteractions(movieRepository);
     }
 }
