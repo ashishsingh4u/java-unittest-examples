@@ -9,9 +9,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MovieServiceSpy2Test {
@@ -62,5 +64,19 @@ class MovieServiceSpy2Test {
         Movie updatedMovie = movieService.updateMovieStars(movie.getName());
         assertEquals(movie.getName(), updatedMovie.getName(), "Movie name changed");
         assertEquals(5, updatedMovie.getStarCount(), "Star count is not updated");
+    }
+
+    @Test
+    void testMockitoSpy2WithAnnotation() {
+        Movie movie = new Movie("X-Men", "2020", 4);
+
+        /*
+         Since this is spy, it will actually call the findMovieByName while making stub and will fail with RuntimeException
+         doReturn(movie).when(movieRepository).findMovieByName(movie.getName()) or use mock instead of spy
+        */
+        assertThrows(RuntimeException.class, () -> {
+            when(movieRepository.findMovieByName("X-Men")).thenReturn(movie);
+            movieService.updateMovieStars("X-Men");
+        });
     }
 }
