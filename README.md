@@ -97,3 +97,15 @@ for this demonstration
 
     MovieService2AnnotationTest
     MovieService2Annotation2Test
+
+### Using Argument Captor to capture arguments used with Mocked objects
+
+#### This is very important as if the argument passed to public methods changed while passing it to mocks then we can easily get this change
+
+    MovieServiceMockTest
+
+### Using Spy/Partial Mock Test Doubles (With Mockito)
+
+#### This is used to record interactions with external dependencies
+
+    MovieServiceSpy2Test
