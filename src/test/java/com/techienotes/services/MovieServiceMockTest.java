@@ -18,6 +18,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -134,6 +135,19 @@ class MovieServiceMockTest {
 
         Movie x = new Movie("X", "2020", 5);
         when(repository.getAllKidMovies()).thenThrow(SQLException.class);
+
+        assertThrows(DatabaseException.class, movieService::getAllKidMovies);
+        assertThrows(DatabaseException.class, () -> movieService.getAllKidMovies());
+    }
+
+    @Test
+    void testExceptionOnGetOnMockedMovieServiceWithBDDMockito() throws SQLException {
+        MovieRepository repository = mock(MovieRepository.class);
+        NotificationService notificationService = mock(NotificationService.class);
+        MovieService movieService = new MovieService(repository, notificationService);
+
+        Movie x = new Movie("X", "2020", 5);
+        given(repository.getAllKidMovies()).willThrow(SQLException.class);
 
         assertThrows(DatabaseException.class, movieService::getAllKidMovies);
         assertThrows(DatabaseException.class, () -> movieService.getAllKidMovies());

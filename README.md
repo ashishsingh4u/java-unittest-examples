@@ -121,3 +121,13 @@ for this demonstration
 * then verify/assert the output (Assert)
 
 For example: Given a Movie, When addMovie method is called, Then movie is saved to database
+
+    ComedyServiceBDDTest
+
+### Behavior Verification using BDDMockito
+
+    ComedyServiceBDDTest
+
+### Exception Handling with BDDMockito
+
+    
