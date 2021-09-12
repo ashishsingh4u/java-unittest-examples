@@ -109,3 +109,15 @@ for this demonstration
 #### This is used to record interactions with external dependencies
 
     MovieServiceSpy2Test
+
+### Behavior Driven Development using BDDMockito
+
+#### It is a development process that encourages writing tests in a natural, human-readable language that focuses on behavior of the application
+
+> It corresponds to AAA testing i.e. Arrange Act Assert
+
+* given some values and pre-conditions (Arrange)
+* when and action is performed (Act)
+* then verify/assert the output (Assert)
+
+For example: Given a Movie, When addMovie method is called, Then movie is saved to database
