@@ -107,6 +107,8 @@ class ComedyServiceBDDTest {
         /*
          Argument matcher should be provided for all the arguments. It's not possible to provide it just for one or two.
          And it cannot be used outside stubbing/verification of methods
+         This can be used to match any generic types as well
+         Example: ArgumentMatchers.<AsyncCallback<ResponseX>>any()
         */
         given(comedyMovieRepository.findMovieByName(anyString())).willReturn(movie);
 

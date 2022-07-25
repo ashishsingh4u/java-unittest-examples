@@ -137,7 +137,7 @@ class MovieServiceMockTest {
         when(repository.getAllKidMovies()).thenThrow(SQLException.class);
 
         assertThrows(DatabaseException.class, movieService::getAllKidMovies);
-        assertThrows(DatabaseException.class, () -> movieService.getAllKidMovies());
+        assertThrows(DatabaseException.class, movieService::getAllKidMovies);
     }
 
     @Test
@@ -150,7 +150,7 @@ class MovieServiceMockTest {
         given(repository.getAllKidMovies()).willThrow(SQLException.class);
 
         assertThrows(DatabaseException.class, movieService::getAllKidMovies);
-        assertThrows(DatabaseException.class, () -> movieService.getAllKidMovies());
+        assertThrows(DatabaseException.class, movieService::getAllKidMovies);
     }
 
     @Test
